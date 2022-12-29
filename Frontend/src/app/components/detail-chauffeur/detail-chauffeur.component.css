@@ -1,0 +1,16 @@
+mat-grid-tile {
+    background-color: aqua;
+}
+
+.card {
+    max-width: 400px;
+}
+
+.ligne {
+    margin-bottom: 15px;
+}
+
+h4 {
+    color: blue;
+    text-align: center;
+}

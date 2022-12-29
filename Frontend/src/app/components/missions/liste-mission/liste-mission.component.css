@@ -1,0 +1,162 @@
+mat-toolbar{
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+/*  footer dun tableau table */
+#kl-contenu{
+margin-top: 40px;
+display:flex;
+flex-direction: row;
+}
+
+.naim-side{
+/* border-right:2px solid rgba(0, 0, 0, 0.216); */
+border-radius: 5px;
+height: 100vh;
+flex:2 1 auto;
+}
+/* creation d'un side bar */
+.kl-side-bar{
+border-right:2px solid rgba(0, 0, 0, 0.216);
+border-radius: 5px;
+height: 100vh;
+position: fixed;
+padding: 10px;
+
+}
+
+.kl-side-bar mat-selection-list{
+position: relative;
+}
+/* creation du main content */
+.kl-main-content{
+flex:5 1 auto;
+padding: 20px;
+}
+
+/* rendre un contenu scrolable */
+.kl-main-content .missions-data{
+  max-height: 500px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* alignement flex box */
+.missionsList-actions{
+display: flex;
+flex-direction: row;
+padding:15px;
+background-color: ghostwhite;
+}
+.missionsList-actions section{
+flex:16 1 auto;
+}
+.missionsList-actions section+section{
+flex:1 1 auto;
+}
+
+/* filter */
+
+.example-full-width{
+width: 200px;
+}
+
+/* icons de pagination  */
+.missionsList-actions >section+section span{
+margin-left:20px;
+}
+.missionsList-actions >section+section span >mat-icon {
+font-size:30px;
+margin-left: 8px;
+}
+
+.missionsList-actions >section+section span >mat-icon:hover {
+cursor: pointer;
+color: rgb(132, 138, 138);
+}
+
+.kl-impression{
+margin-top: 50px;
+
+}
+
+#table_of_mission{
+width: 100%;
+height: 450px;
+}
+
+
+table {
+  width: 100%;
+}
+
+.kl-table-container {
+  position: relative;
+  min-height: 200px;
+  max-height: 400px;
+  overflow: auto;
+}
+.material-symbols-outlined-1,
+.material-symbols-outlined-3,
+.material-symbols-outlined-2{
+  cursor: pointer;
+}
+
+.material-symbols-outlined-1{
+  color: green;
+}
+
+.material-symbols-outlined-3{
+  color: red;
+}
+
+.material-symbols-outlined-2{
+  color: blue;
+}
+
+.kl-mat-actions{
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+/** coleur du modal**/
+::ng-deep .bg-detail> .mat-dialog-container{
+  background-color: blue;
+  color:white;
+}
+
+::ng-deep .bg-supprimer> .mat-dialog-container{
+  background-color: red;
+  color:white;
+}
+
+::ng-deep .backdrop-color{
+  background-color: rgba(0, 0, 0, 0.609);
+}
+
+::ng-deep .mat-button.mat-primary,
+::ng-deep .mat-button.mat-warn{
+  color:white;
+}
+
+.kl-en-cours{
+  background-color:lightgreen;
+  cursor: pointer;
+}
+
+.kl-terminer{
+  background-color:deeppink;
+  cursor: pointer;
+}
+
+.kl-data-row{
+  text-align: center;
+}
+
+::ng-deep body{
+  background-color: blueviolet !important;
+  width: 100% !important;
+}

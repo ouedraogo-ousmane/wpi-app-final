@@ -1,0 +1,26 @@
+.active {
+    background-color: gray;
+}
+
+a:hover,
+a:active {
+    color: rgb(12, 11, 11);
+    background-color: rgb(30, 130, 130);
+}
+
+
+/* .navigation-items {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+} */
+
+mat-toolbar {
+    border-radius: 3px;
+}
+
+@media(max-width: 959px) {
+    mat-toolbar {
+        border-radius: 0px;
+    }
+}

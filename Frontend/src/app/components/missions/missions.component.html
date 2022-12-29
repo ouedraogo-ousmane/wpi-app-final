@@ -1,0 +1,66 @@
+<!--Bar de navigation global  -->
+
+<!--
+        lorque le bouton d'impression est declanché aucun autre contenu
+        ne doit s 'afficher
+-->
+
+<app-layout>
+    <mat-sidenav-container *ngIf="!isImprimer">
+        <mat-sidenav #sidenav role="navigation">
+            <app-exercice [urlAdmin]="urlMission" (sidenavClose)="sidenav.close()"></app-exercice>
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <app-header (sidenavToggle)="sidenav.toggle()"></app-header>
+            <main>
+
+                <div class="content">
+
+                    <!-- contenu de l'ecran-->
+                    <div id="kl-contenu">
+                        <!-- div pour creer separer l'ecran
+                        <div class="naim-side"></div> -->
+
+                        <div class="kl-main-content">
+                            <ng-container class="kl-main-content" *ngIf="isAcceuilMission">
+                                <!-- Component liste des missions -->
+                                <app-liste-mission (mission_to_be_print)="openPrintMission($event)" (mission_selected)="openDetailMission($event)" (go_menu_acceil)="gotoMenuItem($event)">
+                                </app-liste-mission>
+                            </ng-container>
+
+                            <!-- Component detail de mission -->
+                            <div class="kl-main-content" *ngIf="isdetail">
+                                <ng-container>
+                                    <app-detail-mission [exercice_id]="exercice_id" [Mission]="missionSelectedDetail" (back_to_list_mission)="gotoMenuItem($event)">
+                                    </app-detail-mission>
+                                </ng-container>
+                            </div>
+
+                            <!-- Component programmation mission nouvelle mission -->
+                            <div *ngIf="isProgrammerMission">
+                                <ng-container>
+                                    <app-programmer (back_to_list_mission)="gotoMenuItem($event)"></app-programmer>
+                                </ng-container>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </main>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+
+    <!-- Ordre de mission component+ bouton de retour à l'acceuil -->
+    <div class="kl-impression" *ngIf="isImprimer ">
+        <app-ordre-mission (isRetourToMission)="isImprimer" [mission]="missionSelectedPrint">
+        </app-ordre-mission>
+    </div>
+
+    <div *ngIf="isImprimer" (click)="gotoMenuItem('acceuil')" style="position:fixed; top: 48px;  margin-top: 10px;">
+        <!-- bouton de retour à l'acceuil -->
+        <button mat-fab style="width:40px; height: 40px; background-color: lightblue;">
+        <mat-icon><mat-icon>arrow_back </mat-icon></mat-icon>
+      </button>
+    </div>
+</app-layout>

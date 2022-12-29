@@ -1,0 +1,202 @@
+<ng-container >
+
+  <div class="missionsList-actions" >
+  <!-- Input de filtrage des mission -->
+    <section style="padding-left: 25px;">
+      <mat-button-toggle-group [formControl]="navigationSelected" (change)="openMenuSeleted()">
+        <mat-button-toggle   *ngFor="let mission of menuMission ;"
+        [value]="mission.nom" [checked]=" mission.nom === 'Acceuil' ">
+          {{mission.nom}}
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+
+      <mat-form-field style="margin-left: 50px;" >
+          <mat-label>Filter</mat-label>
+
+          <input matInput (keyup)="filtrage_donnees($event)" placeholder="Ex. ium" #input>
+      </mat-form-field>
+    </section>
+
+      <!-- Section choix de l'etat des mission à afficher  -->
+    <section>
+      <mat-button-toggle-group (change)="listerMissionParStatus(choiceStatus.value)"
+          #choiceStatus="matButtonToggleGroup">
+        <mat-button-toggle [value]="true">En cours</mat-button-toggle>
+        <mat-button-toggle color="primary" [value]="false">Terminer</mat-button-toggle>
+      </mat-button-toggle-group>
+
+      <!-- pagination: par defaut 10 mission son envoyés par un get dans la bd -->
+      <span  *ngIf="listeMission.length>0">
+        <mat-icon matRipple (click)="getMissionListPagination(false)">first_page</mat-icon>
+
+        <mat-icon matRipple (click)="getMissionListPagination(true)">last_page</mat-icon>
+      </span>
+    </section>
+
+    <mat-divider></mat-divider>
+  </div>
+
+    <!-- Listage des missions -->
+  <div class="missions-data" id="table_of_mission" style="position: relative;">
+    <div *ngIf="listeMission.length==0" >
+
+        <div style="position:absolute; height:440px; width:100%; ">
+
+          <div *ngIf="isWait" style="display: flex; justify-content:center; align-items:center;
+              flex-direction:row;height:100%; background-color:rgba(173, 216, 230, 0.141)">
+              <div>
+                <mat-spinner [diameter]="50" color="warn" ></mat-spinner>
+              </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="kl-table-container">
+    <table mat-table [dataSource]="dataSource"  matSort>
+
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()"
+                        [aria-label]="checkboxLabel()">
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()"
+                        (change)="$event ? selection.toggle(row) : null"
+                        [checked]="selection.isSelected(row)"
+                        [aria-label]="checkboxLabel(row)">
+          </mat-checkbox>
+        </td>
+      </ng-container>
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="Position">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="kl-data-row"> # </th>
+        <td mat-cell *matCellDef="let mission; let i=index" class="kl-data-row" [ngClass]="{'kl-en-cours':!mission.etat_mission, 'kl-terminer':mission.etat_mission }">
+            {{i+1}}
+          </td>
+      </ng-container>
+
+      <!-- Nom Column -->
+      <ng-container matColumnDef="Nom">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="kl-data-row"> Nom </th>
+        <td mat-cell class="kl-data-row" *matCellDef="let mission" nom>
+            {{mission.chauffeur.nom}} </td>
+      </ng-container>
+
+      <!-- Prenom Column -->
+      <ng-container matColumnDef="Prenom">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="kl-data-row"> Prenom </th>
+        <td mat-cell class="kl-data-row" *matCellDef="let mission" >
+          {{mission.chauffeur.prenom}} </td>
+      </ng-container>
+
+      <!-- Vehicule Column -->
+      <ng-container matColumnDef="Vehicules">
+        <th mat-header-cell *matHeaderCellDef class="kl-data-row"> Vehicule </th>
+        <td mat-cell class="kl-data-row" *matCellDef="let mission" >
+            {{mission.vehicule.immat}} </td>
+      </ng-container>
+
+      <!--  Trajet Column-->
+      <ng-container matColumnDef="Trajets">
+        <th mat-header-cell *matHeaderCellDef class="kl-data-row"> Trajet </th>
+        <td mat-cell class="kl-data-row" *matCellDef="let mission" >
+            {{mission.trajet.ville_depart}}-{{mission.trajet.ville_arrivee}} </td>
+      </ng-container>
+
+      <!-- Symbol motif -->
+      <ng-container matColumnDef="Motifs">
+        <th mat-header-cell *matHeaderCellDef  mat-sort-header class="kl-data-row"> Motif </th>
+        <td mat-cell class="kl-data-row" *matCellDef="let mission" >
+            {{mission.motif}} </td>
+      </ng-container>
+
+      <!-- Symbol motif -->
+      <ng-container matColumnDef="Date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+        <td mat-cell class="kl-data-row" *matCellDef="let mission">
+          {{mission.date_mission}} </td>
+      </ng-container>
+
+      <!-- Actions -->
+      <ng-container matColumnDef="Actions" stickyEnd>
+        <th mat-header-cell *matHeaderCellDef aria-label="row actions"> Actions </th>
+        <td mat-cell *matCellDef="let mission">
+          <mat-icon class="kl-mat-actions">
+            <span class="material-symbols-outlined-1"  (click)="open_Edit_Dialog()">edit</span>
+          </mat-icon>
+
+          <mat-icon class="kl-mat-actions">
+            <span class="material-symbols-outlined-2">location_on</span>
+          </mat-icon>
+
+          <mat-icon class="kl-mat-actions">
+            <span class="material-symbols-outlined-3" (click)="openDialog(delai_animation_apparution, delai_animation_disparition,
+            'Etes-Vous sûr de vouloir suppprimer ces missions ?','bg-supprimer')">content_cut</span>
+          </mat-icon>
+
+        </td>
+      </ng-container>
+
+      <!-- le header -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+
+      <!-- les données -->
+      <tr  mat-row *matRowDef="let row; columns: displayedColumns;"
+          (click)="selection.toggle(row)" >
+      </tr>
+    </table>
+
+  </div>
+  </div>
+  <mat-divider></mat-divider>
+
+  <div class="missionsList-actions">
+    <section style="display:flex">
+      <!-- selectedOptions.selected :
+        tableau contenant la liste des missions selectionnes
+      -->
+      <button mat-raised-button (click)="openImprimerMission()" [disabled]="
+          selection.selected.length>1 ||selection.selected.length==0
+          " style="margin-right:5px; background-color: lightblue;">
+        Imprimer ordre de mission
+      </button>
+
+      <!-- Bouton detail -->
+      <button mat-raised-button  [disabled]="selection.selected.length>1 ||selection.selected.length==0
+          " style="margin-right:5px; background-color: lightblue;" (click)="openDetailMission()">
+        Detail
+      </button>
+      <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <span>Nombre d'element selectionnée: <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> {{selection.selected.length}}</span>
+    </section>
+
+    <section>
+      <!-- Liste des actions -->
+      <!-- desactiver les boutons si le nombre de selection est superieur a 1 ou == 0 -->
+
+
+      <!--
+        Bouton: imprimer + aller au detail
+        Desactive les boutons si le nbre de selection == 0
+      -->
+      <button mat-raised-button style="margin-right:5px"
+      (click)="openDialog(delai_animation_apparution,
+                delai_animation_disparition,
+                'Etes-Vous sûr de vouloir modifier etat de ces missions ?', 'bg-detail')">
+          Modifier l'etat
+        </button>
+
+      <button mat-raised-button
+        style="margin-right:5px; background-color:crimson; color:#fff"  (click)="openDialog(delai_animation_apparution, delai_animation_disparition,
+          'Etes-Vous sûr de vouloir suppprimer ces missions ?','bg-supprimer')" >
+        Supprimer
+      </button>
+
+    </section>
+  </div>
+  </ng-container>

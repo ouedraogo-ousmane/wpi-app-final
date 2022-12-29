@@ -1,0 +1,14 @@
+django>=4.0.0,<4.1.0
+djangorestframework
+djangorestframework-simplejwt
+pyyaml
+requests
+django-cors-headers
+django-filter
+django-utils-six
+requests
+dj-database-url
+whitenoise
+psycopg2
+gunicorn
+django-heroku

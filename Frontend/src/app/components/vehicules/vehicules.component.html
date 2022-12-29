@@ -1,0 +1,30 @@
+<app-layout>
+    <mat-sidenav-container>
+        <mat-sidenav #sidenav role="navigation">
+            <app-exercice (sidenavClose)="sidenav.close()"></app-exercice>
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <app-header (sidenavToggle)="sidenav.toggle()"></app-header>
+            <main>
+
+                <div class="chargement" *ngIf="!isLoaded">
+                    <mat-spinner mode="indeterminate" color="primary">Chargement</mat-spinner>
+                </div>
+
+                <div class="content" id="dataToPrint" *ngIf="isLoaded && displayCar">
+                    <h2>Listes des vehicules</h2>
+
+
+                </div>
+
+                <div class="content" id="dataToPrint" *ngIf="isLoaded && !displayCar">
+
+                    <h2>Listes des categories</h2>
+                </div>
+
+                <div class="button" *ngIf="isLoaded">
+                </div>
+            </main>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</app-layout>

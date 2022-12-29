@@ -1,0 +1,31 @@
+<mat-nav-list style="margin: bottom 25px;">
+
+    <a mat-list-item routerLink="/exercice" [routerLinkActiveOptions]={exact:true} routerLinkActive="active" (click)="onSidenavClose()">
+        <span class="nav-caption"><mat-icon matListIcon>home</mat-icon>Accueil</span>
+    </a>
+
+
+    <a mat-list-item routerLink="/chauffeur" (click)="onSidenavClose()" routerLinkActive="active">
+        <span class="nav-caption"><mat-icon matListIcon>person</mat-icon>Chauffeurs</span>
+    </a>
+
+
+    <a mat-list-item routerLink="/statistique" (click)="onSidenavClose()" routerLinkActive="active">
+        <span class="nav-caption"><mat-icon matListIcon>bar_chart</mat-icon>
+                Statistiques
+        </span>
+    </a>
+
+    <a style="height: 50px ;" mat-list-item [href]="urlAdmin" target="_blank" (click)="onSidenavClose()">
+        <span class="nav-caption"><mat-icon matListIcon>
+            settings</mat-icon>
+        Administration
+        </span>
+    </a>
+
+    <a mat-list-item routerLink="deconnexion" (click)="onSidenavClose()">
+        <span class="nav-caption"><mat-icon matListIcon>logout</mat-icon>Se deconnecter</span>
+    </a>
+
+
+</mat-nav-list>

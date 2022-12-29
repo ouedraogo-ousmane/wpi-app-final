@@ -1,0 +1,140 @@
+<mat-nav-list style="margin-left:70px; ">
+  <mat-nav-item style="display:inline-block">
+      <ng-container mat-list-item>
+          <button mat-fab style="width:40px; height: 40px; background-color: lightblue;" (click)="print()">
+      <mat-icon>save </mat-icon>
+    </button>
+      </ng-container>
+
+  </mat-nav-item>
+
+</mat-nav-list>
+
+<div id="print-section">
+  <header class="kl-title">
+      <h1>
+          <span>WENDLA SOABA TRANSPORT</span> <br>
+      </h1>
+
+      <hr style="padding:10px; border-radius:5px; background-color: rgba(0, 0, 255, 0.744);">
+  </header>
+
+  <main>
+      <div class="kl-main-div-print">
+
+          <table>
+              <thead>
+                  <tr>
+                      <th class="service">INFOS CHAUFFEUR</th>
+                      <th style="text-align: right;">VEHICULE</th>
+                  </tr>
+              </thead>
+
+              <tbody>
+                  <tr>
+                      <td class="service">
+                          <span>Nom      :{{chauffeur.nom  }} </span> <br>
+                          <span>Prenom   :{{chauffeur.prenom}}</span> <br>
+                          <span>Tel      :(+226) {{chauffeur.telephone}}</span> <br>
+                          <span>voyage n$:{{mission_toPrint.id}}</span>
+                      </td>
+
+                      <td>
+                          <div style="width: auto; float:right">
+                              <span>immat   : {{vehicule.immat}}</span> <br>
+                              <span>Couleur : {{vehicule.couleur}}</span> <br>
+                              <span>Marque  : {{vehicule.marque}}</span>
+                          </div>
+
+                      </td>
+                  </tr>
+
+              </tbody>
+          </table>
+
+      </div>
+
+      <div class="kl-main-div-print">
+          <table>
+              <thead>
+                  <tr>
+                      <th class="service">PRODUITS</th>
+                      <th>QUANTITES</th>
+                      <th style="text-align: right;">UNITE</th>
+                  </tr>
+              </thead>
+
+              <tbody>
+                  <tr *ngFor="let produit of listeProduit">
+                      <td class="service">{{produit.produit__nom}}</td>
+                      <td class="dep" style="text-align:center">{{produit.qte_produit}}</td>
+                      <td style="text-align: right;">{{produit.produit__unite}}</td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+
+      <div class="kl-main-div-print">
+          <table>
+              <thead>
+                  <tr>
+                      <th class="service">LISTES DES DEPENSES</th>
+                      <th style="text-align: right;">MONTANT</th>
+                  </tr>
+              </thead>
+
+              <tbody>
+                  <tr *ngFor="let depense of listeDepense">
+                      <td class="service"> {{depense.intitule_depense__intitule}} </td>
+                      <td style="text-align: right;">{{depense.montant}}</td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+
+      <div id="trajet">
+          <table style="padding:0;">
+              <thead>
+                  <tr>
+                      <th class="service">Infos sur le trajet</th>
+                      <th style="text-align: right;">Date Mission</th>
+                  </tr>
+              </thead>
+
+              <tbody>
+                  <tr>
+                      <td class="service">
+                          <span>Destination 1: {{trajet.ville_depart}}</span> <br><br>
+                          <span>Destination 2: {{trajet.ville_arrivee}}</span> <br><br>
+                      </td>
+
+                      <td>
+                          <div style="width: auto; float:right">
+                              <span>Date de Depart : {{mission_toPrint.date_mission}}</span> <br><br>
+                              <span>Ville de Depart: {{trajet.ville_depart}} </span> <br><br>
+                          </div>
+                      </td>
+                  </tr>
+
+              </tbody>
+          </table>
+
+      </div>
+
+      <div id="kl-div-only">
+
+          <b></b>
+          <b>Donneur d'ordre</b>
+
+      </div>
+
+  </main>
+  <footer>
+      <mat-divider></mat-divider>
+
+      <hr style="padding:10px; border-radius:5px; background-color: rgba(0, 0, 255, 0.744);">
+      <hr style="padding:1px;border-radius:5px; background-color: red">
+
+  </footer>
+</div>
+
